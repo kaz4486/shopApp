@@ -1,55 +1,41 @@
-import clsx from 'clsx';
 import Button from '../Button/Button';
 import styles from './ProductForm.module.scss';
+import OptionColor from '../OptionColor/OptionColor';
+import OptionSize from '../OptionSize/OptionSize';
+import PropTypes from 'prop-types';
 
 const ProductForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
-      <div className={styles.sizes}>
-        <h3 className={styles.optionLabel}>Sizes</h3>
-        <ul className={styles.choices}>
-          {props.sizes.map((size) => (
-            <li key={size.name}>
-              <button
-                type='button'
-                className={clsx(
-                  size.name === props.currentSize.name && styles.active
-                )}
-                onClick={() =>
-                  props.setCurrentSize({
-                    name: size.name,
-                    additionalPrice: size.additionalPrice,
-                  })
-                }
-              >
-                {size.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={styles.colors}>
-        <h3 className={styles.optionLabel}>Colors</h3>
-        <ul className={styles.choices}>
-          {props.colors.map((color) => (
-            <li key={color}>
-              <button
-                type='button'
-                className={clsx(
-                  styles['color' + props.preparedColorName(color)],
-                  color === props.currentColor && styles.active
-                )}
-                onClick={() => props.setCurrentColor(color)}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <Button className={styles.button}>
+      <OptionSize
+        key={props.currentSize}
+        sizes={props.sizes}
+        currentSize={props.currentSize}
+        setCurrentSize={props.setCurrentSize}
+      />
+      <OptionColor
+        key={props.currentColor}
+        colors={props.colors}
+        preparedColorName={props.preparedColorName}
+        setCurrentColor={props.setCurrentColor}
+        currentColor={props.currentColor}
+      />
+      <Button className={styles.button} key={props.basePrice}>
         <span className='fa fa-shopping-cart' />
       </Button>
     </form>
   );
+};
+
+ProductForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  colors: PropTypes.array.isRequired,
+  currentColor: PropTypes.string.isRequired,
+  currentSize: PropTypes.object.isRequired,
+  preparedColorName: PropTypes.func.isRequired,
+  setCurrentColor: PropTypes.func.isRequired,
+  setCurrentSize: PropTypes.func.isRequired,
+  sizes: PropTypes.array.isRequired,
 };
 
 export default ProductForm;

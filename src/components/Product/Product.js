@@ -1,5 +1,4 @@
 import styles from './Product.module.scss';
-
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ProductImage from '../ProductImage/ProductImage';
@@ -31,7 +30,7 @@ const Product = (props) => {
 
   return (
     <article className={styles.product}>
-      <ProductImage key={props.id} {...props} currentColor={currentColor} />
+      <ProductImage key={props.name} {...props} currentColor={currentColor} />
       <div>
         <header>
           <h2 className={styles.name}>{props.title}</h2>
@@ -40,6 +39,7 @@ const Product = (props) => {
           </span>
         </header>
         <ProductForm
+          key={props.title}
           handleSubmit={handleSubmit}
           currentSize={currentSize}
           setCurrentSize={setCurrentSize}
